@@ -21,7 +21,8 @@ export default function EmployeeTable({ employees }) {
             id: employee.id,
         }).then((response) => {
             if (response) {
-                console.log("EmployeeDeleted " + employee.id);
+                employees = employees.filter((e) => e.id !== employee.id);
+                document.getElementById(employee.id).remove();
             }
         });
     };
@@ -41,11 +42,7 @@ export default function EmployeeTable({ employees }) {
                 <tbody>
                     {employees.map((employee) => {
                         return (
-                            <tr
-                                key={
-                                    employee.firstName + " " + employee.lastName
-                                }
-                            >
+                            <tr key={employee.id} id={employee.id}>
                                 <td>{employee.firstName}</td>
                                 <td>{employee.lastName}</td>
                                 <td>{employee.salary}</td>
