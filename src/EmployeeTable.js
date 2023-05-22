@@ -1,7 +1,16 @@
 import "./App.css";
+import Axios from "axios";
 import testData from "./data.json";
 
 export default function EmployeeTable({ employees }) {
+    const editEmployee = (e) => {
+        Axios.post("http://localhost:3001/editEmployee").then((response) => {
+            console.log(response);
+        });
+    };
+
+    const deleteEmployee = (e) => {};
+
     return (
         <>
             <table className="EmployeeTable">
@@ -26,8 +35,10 @@ export default function EmployeeTable({ employees }) {
                                 <td>{employee.lastName}</td>
                                 <td>{employee.salary}</td>
                                 <td>
-                                    <button>Edit</button>
-                                    <button>Delete</button>
+                                    <button onClick={editEmployee}>Edit</button>
+                                    <button onClick={deleteEmployee}>
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                         );
