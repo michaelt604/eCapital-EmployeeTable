@@ -7,7 +7,7 @@ function App() {
     const [employees, setEmployees] = useState([]);
 
     const getEmployees = () => {
-        Axios.get("http://localhost:3001/getEmployees").then((response) => {
+        Axios.get("http://localhost:3001/getEmployee").then((response) => {
             setEmployees(response.data);
         });
     };

@@ -3,13 +3,28 @@ import Axios from "axios";
 import testData from "./data.json";
 
 export default function EmployeeTable({ employees }) {
-    const editEmployee = (e) => {
-        Axios.post("http://localhost:3001/editEmployee").then((response) => {
-            console.log(response);
+    //Edits employee with given id
+    const editEmployee = (employee) => {
+        Axios.post("http://localhost:3001/editEmployee", {
+            firstName: "Test",
+            lastName: "Test2",
+            salary: 12345,
+            id: employee.id,
+        }).then((response) => {
+            console.log("EmployeeEdited " + employee.id);
         });
     };
 
-    const deleteEmployee = (e) => {};
+    //Deletes employee with given id
+    const deleteEmployee = (employee) => {
+        Axios.post("http://localhost:3001/deleteEmployee", {
+            id: employee.id,
+        }).then((response) => {
+            if (response) {
+                console.log("EmployeeDeleted " + employee.id);
+            }
+        });
+    };
 
     return (
         <>
@@ -35,8 +50,14 @@ export default function EmployeeTable({ employees }) {
                                 <td>{employee.lastName}</td>
                                 <td>{employee.salary}</td>
                                 <td>
-                                    <button onClick={editEmployee}>Edit</button>
-                                    <button onClick={deleteEmployee}>
+                                    <button
+                                        onClick={() => editEmployee(employee)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => deleteEmployee(employee)}
+                                    >
                                         Delete
                                     </button>
                                 </td>
