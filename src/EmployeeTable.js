@@ -1,33 +1,39 @@
+import "./App.css";
 import testData from "./data.json";
 
-function EmployeeTable() {
+export default function EmployeeTable({ employees }) {
     return (
         <>
-            <table>
-                <thead>Employees</thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Salary</th>
-                    <th>Edit/Delete</th>
-                </tr>
+            <table className="EmployeeTable">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Salary</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
-                {testData.map((employee) => {
-                    return (
-                        <tr key={employee.firstName + " " + employee.lastName}>
-                            <td>{employee.firstName}</td>
-                            <td>{employee.lastName}</td>
-                            <td>{employee.salary}</td>
-                            <td>
-                                <button>Edit</button>
-                                <button>Delete</button>
-                            </td>
-                        </tr>
-                    );
-                })}
+                <tbody>
+                    {employees.map((employee) => {
+                        return (
+                            <tr
+                                key={
+                                    employee.firstName + " " + employee.lastName
+                                }
+                            >
+                                <td>{employee.firstName}</td>
+                                <td>{employee.lastName}</td>
+                                <td>{employee.salary}</td>
+                                <td>
+                                    <button>Edit</button>
+                                    <button>Delete</button>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </table>
         </>
     );
 }
-
-export default EmployeeTable;
