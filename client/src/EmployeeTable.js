@@ -6,61 +6,62 @@ import Popup from "./Popup";
 
 export default function EmployeeTable({ employees, getEmployees }) {
     const [showPopup, setShowPopup] = useState(false);
-    const [popupData, setPopupData] = useState({
-        firstName: "",
-        lastName: "",
-        salary: 0,
-    });
-
-    //Toggles Popup
-    const handleTogglePopup = () => {
-        setShowPopup(!showPopup);
-    };
-
-    //Handles data saving
-    const handleSave = (data) => {
-        console.log(data);
-        setPopupData(data);
-        setShowPopup(false);
-    };
+    const [popupData, setPopupData] = useState(null);
 
     //Handles popup closing
     const handleCancel = () => {
         setShowPopup(false);
     };
 
-    //Adds new employee to database
-    const addEmployee = () => {
-        setPopupData({ firstName: "", lastName: "", salary: 0 });
+    //Toggles Popup: Set's popupData for use when modal is closed
+    const handleTogglePopup = (employee) => {
+        setPopupData(employee);
+        setShowPopup(!showPopup);
+    };
 
-        handleTogglePopup();
+    //Handles data saving: If id exists (not -1), edit employee, else add new employee
+    const onSave = (data) => {
+        data.id = popupData.id;
+        setPopupData(data);
+        console.log("Updated data: " + JSON.stringify(popupData));
+        setShowPopup(false);
+
+        data.id === -1 ? addEmployee(data) : editEmployee(data);
+    };
+
+    //Adds new employee to database
+    const addEmployee = async (employee) => {
+        console.log("AddEmployee " + JSON.stringify(employee));
+
+        await Axios.post("http://localhost:3001/addEmployee", {
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            salary: employee.salary,
+        }).then((response) => {
+            getEmployees(); //Refresh table
+        });
     };
 
     //Edits employee with given id
-    const editEmployee = (employee) => {
-        console.log(employee);
-        setPopupData(employee);
-        handleTogglePopup();
-        /*
-        Axios.post("http://localhost:3001/editEmployee", {
-            firstName: "Test",
-            lastName: "Test2",
-            salary: 12345,
+    const editEmployee = async (employee) => {
+        console.log("EditEmployee " + JSON.stringify(employee));
+
+        await Axios.post("http://localhost:3001/editEmployee", {
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            salary: employee.salary,
             id: employee.id,
         }).then((response) => {
-            console.log("EmployeeEdited " + employee.id);
-        });*/
+            getEmployees(); //Refresh table
+        });
     };
 
-    //Deletes employee with given id
+    //Deletes employee with given id then refresh table
     const deleteEmployee = (employee) => {
         Axios.post("http://localhost:3001/deleteEmployee", {
             id: employee.id,
         }).then((response) => {
             if (response) {
-                /* Might add back later after looking up best practices
-                employees = employees.filter((e) => e.id !== employee.id);
-                document.getElementById(employee.id).remove();*/
                 getEmployees();
             }
         });
@@ -70,11 +71,12 @@ export default function EmployeeTable({ employees, getEmployees }) {
         <>
             <Popup
                 isOpen={showPopup}
-                onSave={handleSave}
+                onSave={onSave}
                 onCancel={handleCancel}
-                fName={popupData.firstName}
-                lName={popupData.lastName}
-                sal={popupData.salary}
+                employee={popupData}
+                //fName={popupData.firstName}
+                //lName={popupData.lastName}
+                //sal={popupData.salary}
             />
             <table className="EmployeeTable">
                 <thead>
@@ -95,7 +97,9 @@ export default function EmployeeTable({ employees, getEmployees }) {
                                 <td>{employee.salary}</td>
                                 <td>
                                     <button
-                                        onClick={() => editEmployee(employee)}
+                                        onClick={() =>
+                                            handleTogglePopup(employee)
+                                        }
                                     >
                                         Edit
                                     </button>
@@ -110,7 +114,18 @@ export default function EmployeeTable({ employees, getEmployees }) {
                     })}
                 </tbody>
             </table>
-            <button onClick={addEmployee}>Add Employee</button>
+            <button
+                onClick={() =>
+                    handleTogglePopup({
+                        id: -1,
+                        firstName: "",
+                        lastName: "",
+                        salary: 0,
+                    })
+                }
+            >
+                Add Employee
+            </button>
         </>
     );
 }
