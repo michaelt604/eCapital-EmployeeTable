@@ -1,11 +1,27 @@
 .app {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 1rem;
+    background-color: #f3f3f3;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .employee-header {
-    margin: 1rem 0.5rem;
-    text-align: center;
     font-size: 2.5rem;
     text-transform: uppercase;
+    color: #3a3a3a;
+    text-align: justify;
+    margin-top: 0rem;
+}
+
+.employee-table {
+    width: 100%;
+    margin: 2rem auto;
+    border-collapse: collapse;
+    border-radius: 0.3rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
