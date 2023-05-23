@@ -17,31 +17,34 @@ export default function App() {
         }
     }, []);
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
+    const handleFileChange = useCallback(
+        (e) => {
+            const file = e.target.files[0];
 
-        if (file && file.type === "application/json") {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const jsonData = JSON.parse(e.target.result);
-                    if (jsonData !== selectedFile) {
-                        setSelectedFile(jsonData);
+            if (file && file.type === "application/json") {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const jsonData = JSON.parse(e.target.result);
+                        if (jsonData !== selectedFile) {
+                            setSelectedFile(jsonData);
+                        }
+                    } catch (error) {
+                        console.error("Error parsing JSON file:", error);
                     }
-                } catch (error) {
-                    console.error("Error parsing JSON file:", error);
-                }
-            };
-            reader.readAsText(file);
-        } else {
-            setSelectedFile(null);
-            console.error("Invalid file format. Please select a JSON file.");
-        }
-    };
+                };
+                reader.readAsText(file);
+            } else {
+                setSelectedFile(null);
+                console.error("Invalid file format. Please select a JSON file.");
+            }
+        },
+        [selectedFile]
+    );
 
-    const handleChooseFile = () => {
+    const handleChooseFile = useCallback(() => {
         fileInputRef.current.click();
-    };
+    }, []);
 
     const handleFileUpload = useCallback(async () => {
         if (!selectedFile) {
@@ -63,7 +66,7 @@ export default function App() {
         }
     }, [selectedFile, getEmployees]);
 
-    const handleCleanDB = async () => {
+    const handleCleanDB = useCallback(async () => {
         const confirmDelete = window.confirm("Are you sure you want to delete all employees?");
         if (confirmDelete) {
             try {
@@ -73,7 +76,7 @@ export default function App() {
                 console.error("Error cleaning database:", error);
             }
         }
-    };
+    }, [getEmployees]);
 
     //Ensure we only handle file upload if we have a file to upload
     useEffect(() => {
