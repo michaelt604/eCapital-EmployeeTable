@@ -45,13 +45,9 @@ app.post("/addEmployee", (req, res) => {
     const lastName = req.body.lastName;
     const salary = req.body.salary;
 
-    db.query(
-        `INSERT INTO employees (firstName, lastName, salary) VALUES (?, ?, ?)`,
-        [firstName, lastName, salary],
-        (error, result) => {
-            error ? console.log(error) : res.send("Success");
-        }
-    );
+    db.query(`INSERT INTO employees (firstName, lastName, salary) VALUES (?, ?, ?)`, [firstName, lastName, salary], (error, result) => {
+        error ? console.log(error) : res.send("Success");
+    });
 });
 
 //Edits a selected employee in the database using its id
@@ -60,13 +56,9 @@ app.post("/editEmployee", (req, res) => {
     const lastName = req.body.lastName;
     const salary = req.body.salary;
     const id = req.body.id;
-    db.query(
-        `UPDATE employees SET firstName = ?, lastName = ?, salary = ? WHERE id = ?`,
-        [firstName, lastName, salary, id],
-        (error, result) => {
-            error ? console.log(error) : res.send("Success");
-        }
-    );
+    db.query(`UPDATE employees SET firstName = ?, lastName = ?, salary = ? WHERE id = ?`, [firstName, lastName, salary, id], (error, result) => {
+        error ? console.log(error) : res.send("Success");
+    });
 });
 
 //Delete a selected employee from the database using its id

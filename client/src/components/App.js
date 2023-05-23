@@ -1,22 +1,21 @@
 import "./App.css";
 import EmployeeTable from "./EmployeeTable";
 import Axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 export default function App() {
     const [employees, setEmployees] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [jsonUploaded, setJsonUploaded] = useState(false);
+    const fileInputRef = useRef(null);
 
-    const getEmployees = async () => {
+    const getEmployees = useCallback(async () => {
         try {
-            Axios.get("http://localhost:3001/getEmployee").then((response) => {
-                setEmployees(response.data);
-            });
+            const response = await Axios.get("http://localhost:3001/getEmployee");
+            setEmployees(response.data);
         } catch (error) {
             console.error("Error getting employees:", error);
         }
-    };
+    }, []);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -26,8 +25,9 @@ export default function App() {
             reader.onload = (e) => {
                 try {
                     const jsonData = JSON.parse(e.target.result);
-                    setSelectedFile(jsonData);
-                    setJsonUploaded(true);
+                    if (jsonData !== selectedFile) {
+                        setSelectedFile(jsonData);
+                    }
                 } catch (error) {
                     console.error("Error parsing JSON file:", error);
                 }
@@ -35,12 +35,15 @@ export default function App() {
             reader.readAsText(file);
         } else {
             setSelectedFile(null);
-            setJsonUploaded(false);
             console.error("Invalid file format. Please select a JSON file.");
         }
     };
 
-    const handleFileUpload = async () => {
+    const handleChooseFile = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileUpload = useCallback(async () => {
         if (!selectedFile) {
             console.error("No file selected");
             return;
@@ -51,50 +54,51 @@ export default function App() {
                 json: selectedFile.employees,
             });
 
-            //Reset file input
+            fileInputRef.current.value = "";
             setSelectedFile(null);
-            setJsonUploaded(false);
 
-            console.log("JSON file uploaded successfully");
             getEmployees();
         } catch (error) {
             console.error("Error uploading JSON file:", error.message);
         }
-    };
+    }, [selectedFile, getEmployees]);
 
     const handleCleanDB = async () => {
-        try {
-            await Axios.post("http://localhost:3001/cleanDB");
-            getEmployees();
-        } catch (error) {
-            console.error("Error cleaning database:", error);
+        const confirmDelete = window.confirm("Are you sure you want to delete all employees?");
+        if (confirmDelete) {
+            try {
+                await Axios.post("http://localhost:3001/cleanDB");
+                getEmployees();
+            } catch (error) {
+                console.error("Error cleaning database:", error);
+            }
         }
     };
+
+    //Ensure we only handle file upload if we have a file to upload
+    useEffect(() => {
+        if (selectedFile) {
+            handleFileUpload();
+        }
+    }, [selectedFile, handleFileUpload]);
 
     //Displays a list of employees of page refresh
     useEffect(() => {
         getEmployees();
-    }, []);
+    }, [getEmployees]);
 
     return (
         <div className="app">
             <h1 className="employee-header">Employees</h1>
-            <EmployeeTable
-                className="employee-table"
-                employees={employees}
-                getEmployees={getEmployees}
-            />
+            <EmployeeTable className="employee-table" employees={employees} getEmployees={getEmployees} />
             <div className="file-upload">
                 <button className="bottom-btn" onClick={() => handleCleanDB()}>
                     Clean DataBase
                 </button>
-                <button
-                    className="bottom-btn"
-                    id="import-btn"
-                    onClick={() => handleFileUpload()}>
-                    Import JSON
+                <input key={selectedFile ? "file-selected" : "file-input"} type="file" accept=".json" onChange={handleFileChange} ref={fileInputRef} style={{ display: "none" }} />
+                <button className="bottom-btn" onClick={handleChooseFile}>
+                    Upload JSON
                 </button>
-                <input type="file" accept=".json" onChange={handleFileChange} />
             </div>
         </div>
     );
