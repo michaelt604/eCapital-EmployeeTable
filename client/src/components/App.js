@@ -57,7 +57,6 @@ export default function App() {
             fileInputRef.current.value = "";
             setSelectedFile(null);
 
-            console.log("JSON file uploaded successfully");
             getEmployees();
         } catch (error) {
             console.error("Error uploading JSON file:", error.message);
@@ -65,11 +64,14 @@ export default function App() {
     }, [selectedFile, getEmployees]);
 
     const handleCleanDB = async () => {
-        try {
-            await Axios.post("http://localhost:3001/cleanDB");
-            getEmployees();
-        } catch (error) {
-            console.error("Error cleaning database:", error);
+        const confirmDelete = window.confirm("Are you sure you want to delete all employees?");
+        if (confirmDelete) {
+            try {
+                await Axios.post("http://localhost:3001/cleanDB");
+                getEmployees();
+            } catch (error) {
+                console.error("Error cleaning database:", error);
+            }
         }
     };
 
