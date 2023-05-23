@@ -3,13 +3,18 @@ import EmployeeTable from "./EmployeeTable";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 
-function App() {
+export default function App() {
     const [employees, setEmployees] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const getEmployees = () => {
-        Axios.get("http://localhost:3001/getEmployee").then((response) => {
-            setEmployees(response.data);
-        });
+    const getEmployees = async () => {
+        try {
+            Axios.get("http://localhost:3001/getEmployee").then((response) => {
+                setEmployees(response.data);
+            });
+        } catch (error) {
+            console.error("Error getting employees:", error);
+        }
     };
 
     //Displays a list of employees of page refresh
@@ -28,5 +33,3 @@ function App() {
         </div>
     );
 }
-
-export default App;
