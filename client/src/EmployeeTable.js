@@ -1,4 +1,4 @@
-import "./App.css";
+import "./EmployeeTable.css";
 import Axios from "axios";
 import testData from "./data.json";
 import { useState } from "react";
@@ -70,6 +70,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
     return (
         <>
             <Popup
+                className="table-popup"
                 isOpen={showPopup}
                 onSave={onSave}
                 onCancel={handleCancel}
@@ -78,8 +79,8 @@ export default function EmployeeTable({ employees, getEmployees }) {
                 //lName={popupData.lastName}
                 //sal={popupData.salary}
             />
-            <table className="EmployeeTable">
-                <thead>
+            <table className="employee-table">
+                <thead className="table-head">
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -88,7 +89,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="table-body">
                     {employees.map((employee) => {
                         return (
                             <tr key={employee.id} id={employee.id}>
@@ -96,18 +97,25 @@ export default function EmployeeTable({ employees, getEmployees }) {
                                 <td>{employee.lastName}</td>
                                 <td>{employee.salary}</td>
                                 <td>
-                                    <button
-                                        onClick={() =>
-                                            handleTogglePopup(employee)
-                                        }
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => deleteEmployee(employee)}
-                                    >
-                                        Delete
-                                    </button>
+                                    <div className="btn-container">
+                                        <button
+                                            className="sub-btn"
+                                            onClick={() =>
+                                                handleTogglePopup(employee)
+                                            }
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="sub-btn"
+                                            onClick={() =>
+                                                deleteEmployee(employee)
+                                            }
+                                        >
+                                            {" "}
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         );
@@ -115,6 +123,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
                 </tbody>
             </table>
             <button
+                className="add-employee-btn"
                 onClick={() =>
                     handleTogglePopup({
                         id: -1,
