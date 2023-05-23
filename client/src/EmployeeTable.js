@@ -4,27 +4,42 @@ import testData from "./data.json";
 import { useState } from "react";
 import Popup from "./Popup";
 
-export default function EmployeeTable({ employees }) {
+export default function EmployeeTable({ employees, getEmployees }) {
     const [showPopup, setShowPopup] = useState(false);
-    const [popupData, setPopupData] = useState(null);
+    const [popupData, setPopupData] = useState({
+        firstName: "",
+        lastName: "",
+        salary: 0,
+    });
 
+    //Toggles Popup
     const handleTogglePopup = () => {
         setShowPopup(!showPopup);
     };
 
+    //Handles data saving
     const handleSave = (data) => {
         console.log(data);
         setPopupData(data);
         setShowPopup(false);
     };
 
+    //Handles popup closing
     const handleCancel = () => {
         setShowPopup(false);
     };
 
+    //Adds new employee to database
+    const addEmployee = () => {
+        setPopupData({ firstName: "", lastName: "", salary: 0 });
+
+        handleTogglePopup();
+    };
+
     //Edits employee with given id
     const editEmployee = (employee) => {
-        console.log("show popup");
+        console.log(employee);
+        setPopupData(employee);
         handleTogglePopup();
         /*
         Axios.post("http://localhost:3001/editEmployee", {
@@ -43,8 +58,10 @@ export default function EmployeeTable({ employees }) {
             id: employee.id,
         }).then((response) => {
             if (response) {
+                /* Might add back later after looking up best practices
                 employees = employees.filter((e) => e.id !== employee.id);
-                document.getElementById(employee.id).remove();
+                document.getElementById(employee.id).remove();*/
+                getEmployees();
             }
         });
     };
@@ -55,6 +72,9 @@ export default function EmployeeTable({ employees }) {
                 isOpen={showPopup}
                 onSave={handleSave}
                 onCancel={handleCancel}
+                fName={popupData.firstName}
+                lName={popupData.lastName}
+                sal={popupData.salary}
             />
             <table className="EmployeeTable">
                 <thead>
@@ -90,6 +110,7 @@ export default function EmployeeTable({ employees }) {
                     })}
                 </tbody>
             </table>
+            <button onClick={addEmployee}>Add Employee</button>
         </>
     );
 }

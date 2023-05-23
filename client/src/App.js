@@ -17,13 +17,10 @@ function App() {
         getEmployees();
     }, []);
 
-    const addEmployee = () => {};
-
     return (
         <div className="App">
             <h1>Employee</h1>
-            <EmployeeTable employees={employees} />
-            <button onClick={addEmployee}>Add Employee</button>
+            <EmployeeTable employees={employees} getEmployees={getEmployees} />
         </div>
     );
 }
