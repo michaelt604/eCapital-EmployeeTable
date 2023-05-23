@@ -3,35 +3,29 @@ import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
-export default function Popup({ isOpen, onRequestClose }) {
+//Popup component for editing/adding employee details
+export default function Popup({ isOpen, onSave, onCancel }) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [salary, setSalary] = useState("");
 
     const handleSave = () => {
-        //Reset input fields
-        setFirstName("");
-        setLastName("");
-        setSalary("");
-
-        //Close Popup
-        onRequestClose();
+        const data = {
+            firstName,
+            lastName,
+            salary,
+        };
+        onSave(data);
     };
 
     const handleCancel = () => {
-        // Reset the input fields
-        setFirstName("");
-        setLastName("");
-        setSalary("");
-
-        // Close the popup
-        onRequestClose();
+        onCancel();
     };
 
     return (
         <Modal
             isOpen={isOpen}
-            onRequestClose={onRequestClose}
+            onRequestClose={onCancel}
             contentLabel="Enter Employee Details"
         >
             <input
@@ -53,9 +47,7 @@ export default function Popup({ isOpen, onRequestClose }) {
                 onChange={(e) => setSalary(e.target.value)}
             />
             <button onClick={handleSave}>Save</button>
-            <button className="cancel-button" onClick={handleCancel}>
-                Cancel
-            </button>
+            <button onClick={handleCancel}>Cancel</button>
         </Modal>
     );
 }

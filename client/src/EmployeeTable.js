@@ -6,9 +6,20 @@ import Popup from "./Popup";
 
 export default function EmployeeTable({ employees }) {
     const [showPopup, setShowPopup] = useState(false);
+    const [popupData, setPopupData] = useState(null);
 
     const handleTogglePopup = () => {
         setShowPopup(!showPopup);
+    };
+
+    const handleSave = (data) => {
+        console.log(data);
+        setPopupData(data);
+        setShowPopup(false);
+    };
+
+    const handleCancel = () => {
+        setShowPopup(false);
     };
 
     //Edits employee with given id
@@ -40,7 +51,11 @@ export default function EmployeeTable({ employees }) {
 
     return (
         <>
-            <Popup isOpen={showPopup} onRequestClose={handleTogglePopup} />
+            <Popup
+                isOpen={showPopup}
+                onSave={handleSave}
+                onCancel={handleCancel}
+            />
             <table className="EmployeeTable">
                 <thead>
                     <tr>
