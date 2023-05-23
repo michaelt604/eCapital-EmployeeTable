@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
@@ -8,17 +9,18 @@ app.use(express.json());
 
 const db = mysql.createPool({
     connectionLimit: 5,
-    host: "72.137.54.82",
-    user: "mysql_user",
-    password: "mysql_password",
-    database: "company",
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
 });
 
-//Imports the default employee table into the database
+// Imports the default employee table into the database
 app.post("/importJson", (req, res) => {
     const json = req.body.json;
+    const values = json.map(({ firstName, lastName, salary }) => [firstName, lastName, salary]);
 
-    db.query(`INSERT INTO employees (firstName, lastName, salary) VALUES ?`, [json], (error, result) => {
+    db.query(`INSERT INTO employees (firstName, lastName, salary) VALUES ?`, [values], (error, result) => {
         if (error) {
             console.error("Error inserting employees:", error);
             return res.status(500).json({ error: "Failed to insert employees" });
@@ -109,6 +111,6 @@ app.get("/getEmployee", (req, res) => {
     });
 });
 
-app.listen(3001, () => {
-    console.log("Server running on port 3001");
+app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
 });
