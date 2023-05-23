@@ -19,7 +19,7 @@ function App() {
 
     return (
         <div className="app">
-            <h1 className="employee-header">Employee</h1>
+            <h1 className="employee-header">Employees</h1>
             <EmployeeTable
                 className="employee-table"
                 employees={employees}

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 
+import "./Popup.css";
+
 Modal.setAppElement("#root");
 
 //Popup component for editing/adding employee details

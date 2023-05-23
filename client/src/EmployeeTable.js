@@ -1,4 +1,4 @@
-import "./App.css";
+import "./EmployeeTable.css";
 import Axios from "axios";
 import testData from "./data.json";
 import { useState } from "react";
@@ -97,18 +97,25 @@ export default function EmployeeTable({ employees, getEmployees }) {
                                 <td>{employee.lastName}</td>
                                 <td>{employee.salary}</td>
                                 <td>
-                                    <button
-                                        onClick={() =>
-                                            handleTogglePopup(employee)
-                                        }
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => deleteEmployee(employee)}
-                                    >
-                                        Delete
-                                    </button>
+                                    <div className="btn-container">
+                                        <button
+                                            className="sub-btn"
+                                            onClick={() =>
+                                                handleTogglePopup(employee)
+                                            }
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="sub-btn"
+                                            onClick={() =>
+                                                deleteEmployee(employee)
+                                            }
+                                        >
+                                            {" "}
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         );
