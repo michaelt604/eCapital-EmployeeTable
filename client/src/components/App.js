@@ -1,22 +1,21 @@
 import "./App.css";
 import EmployeeTable from "./EmployeeTable";
 import Axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 export default function App() {
     const [employees, setEmployees] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
 
-    const getEmployees = async () => {
+    const getEmployees = useCallback(async () => {
         try {
-            Axios.get("http://localhost:3001/getEmployee").then((response) => {
-                setEmployees(response.data);
-            });
+            const response = await Axios.get("http://localhost:3001/getEmployee");
+            setEmployees(response.data);
         } catch (error) {
             console.error("Error getting employees:", error);
         }
-    };
+    }, []);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -26,7 +25,9 @@ export default function App() {
             reader.onload = (e) => {
                 try {
                     const jsonData = JSON.parse(e.target.result);
-                    setSelectedFile(jsonData);
+                    if (jsonData !== selectedFile) {
+                        setSelectedFile(jsonData);
+                    }
                 } catch (error) {
                     console.error("Error parsing JSON file:", error);
                 }
@@ -42,7 +43,7 @@ export default function App() {
         fileInputRef.current.click();
     };
 
-    const handleFileUpload = async () => {
+    const handleFileUpload = useCallback(async () => {
         if (!selectedFile) {
             console.error("No file selected");
             return;
@@ -53,7 +54,7 @@ export default function App() {
                 json: selectedFile.employees,
             });
 
-            //Reset file input
+            fileInputRef.current.value = "";
             setSelectedFile(null);
 
             console.log("JSON file uploaded successfully");
@@ -61,7 +62,7 @@ export default function App() {
         } catch (error) {
             console.error("Error uploading JSON file:", error.message);
         }
-    };
+    }, [selectedFile, getEmployees]);
 
     const handleCleanDB = async () => {
         try {
@@ -72,38 +73,29 @@ export default function App() {
         }
     };
 
+    //Ensure we only handle file upload if we have a file to upload
+    useEffect(() => {
+        if (selectedFile) {
+            handleFileUpload();
+        }
+    }, [selectedFile, handleFileUpload]);
+
     //Displays a list of employees of page refresh
     useEffect(() => {
         getEmployees();
-    }, []);
+    }, [getEmployees]);
 
     return (
         <div className="app">
             <h1 className="employee-header">Employees</h1>
-            <EmployeeTable
-                className="employee-table"
-                employees={employees}
-                getEmployees={getEmployees}
-            />
+            <EmployeeTable className="employee-table" employees={employees} getEmployees={getEmployees} />
             <div className="file-upload">
                 <button className="bottom-btn" onClick={() => handleCleanDB()}>
                     Clean DataBase
                 </button>
-                <button
-                    className="bottom-btn"
-                    id="import-btn"
-                    onClick={() => handleFileUpload()}>
-                    Import JSON
-                </button>
-                <input
-                    type="file"
-                    accept=".json"
-                    onChange={handleFileChange}
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                />
+                <input key={selectedFile ? "file-selected" : "file-input"} type="file" accept=".json" onChange={handleFileChange} ref={fileInputRef} style={{ display: "none" }} />
                 <button className="bottom-btn" onClick={handleChooseFile}>
-                    Choose File
+                    Upload JSON
                 </button>
             </div>
         </div>

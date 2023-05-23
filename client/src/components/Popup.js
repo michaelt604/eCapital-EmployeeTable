@@ -45,9 +45,7 @@ export default function Popup({ isOpen, onSave, onCancel, employee }) {
     //Handles cancelling employee details input
     const handleCancel = () => {
         if (unsavedChanges) {
-            const confirmCancel = window.confirm(
-                "Are you sure you want to cancel? Your changes will be lost."
-            );
+            const confirmCancel = window.confirm("Are you sure you want to cancel? Your changes will be lost.");
             if (confirmCancel) {
                 onCancel();
             }
@@ -77,37 +75,15 @@ export default function Popup({ isOpen, onSave, onCancel, employee }) {
 
     return (
         <>
-            <Modal
-                className="modal-container"
-                isOpen={isOpen}
-                onRequestClose={handleCancel}
-                contentLabel="Enter Employee Details">
+            <Modal className="modal-container" isOpen={isOpen} onRequestClose={handleCancel} contentLabel="Enter Employee Details">
                 <form
                     className="modal-form"
                     onSubmit={(e) => {
                         e.preventDefault();
                     }}>
-                    <input
-                        type="text"
-                        name="firstName"
-                        placeholder="First Name"
-                        value={firstName}
-                        onChange={handleInputChange}
-                    />
-                    <input
-                        type="text"
-                        name="lastName"
-                        placeholder="Last Name"
-                        value={lastName}
-                        onChange={handleInputChange}
-                    />
-                    <input
-                        type="number"
-                        name="salary"
-                        placeholder="Salary"
-                        value={salary}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" name="firstName" placeholder="First Name" value={firstName} onChange={handleInputChange} />
+                    <input type="text" name="lastName" placeholder="Last Name" value={lastName} onChange={handleInputChange} />
+                    <input type="number" name="salary" placeholder="Salary" value={salary} onChange={handleInputChange} />
                 </form>
 
                 <button className="modal-button" onClick={handleSave}>

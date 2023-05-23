@@ -23,26 +23,20 @@ export default function EmployeeTable({ employees, getEmployees }) {
         try {
             if (updateEmployee.id === -1) {
                 // Add new employee
-                const response = await Axios.post(
-                    "http://localhost:3001/addEmployee",
-                    {
-                        firstName: updateEmployee.firstName,
-                        lastName: updateEmployee.lastName,
-                        salary: updateEmployee.salary,
-                    }
-                );
+                const response = await Axios.post("http://localhost:3001/addEmployee", {
+                    firstName: updateEmployee.firstName,
+                    lastName: updateEmployee.lastName,
+                    salary: updateEmployee.salary,
+                });
                 console.log(response);
             } else {
                 // Edit existing employee
-                const response = await Axios.post(
-                    "http://localhost:3001/editEmployee",
-                    {
-                        firstName: updateEmployee.firstName,
-                        lastName: updateEmployee.lastName,
-                        salary: updateEmployee.salary,
-                        id: updateEmployee.id,
-                    }
-                );
+                const response = await Axios.post("http://localhost:3001/editEmployee", {
+                    firstName: updateEmployee.firstName,
+                    lastName: updateEmployee.lastName,
+                    salary: updateEmployee.salary,
+                    id: updateEmployee.id,
+                });
                 console.log(response);
             }
             getEmployees();
@@ -65,13 +59,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
 
     return (
         <>
-            <Popup
-                className="table-popup"
-                isOpen={showPopup}
-                onSave={onSave}
-                onCancel={() => setShowPopup(false)}
-                employee={popupData}
-            />
+            <Popup className="table-popup" isOpen={showPopup} onSave={onSave} onCancel={() => setShowPopup(false)} employee={popupData} />
             <table className="employee-table">
                 <thead className="table-head">
                     <tr>
@@ -98,18 +86,10 @@ export default function EmployeeTable({ employees, getEmployees }) {
                                 </td>
                                 <td className="table-body-buttons">
                                     <div className="btn-container">
-                                        <button
-                                            className="sub-btn"
-                                            onClick={() =>
-                                                handleTogglePopup(employee)
-                                            }>
+                                        <button className="sub-btn" onClick={() => handleTogglePopup(employee)}>
                                             Edit
                                         </button>
-                                        <button
-                                            className="sub-btn"
-                                            onClick={() =>
-                                                deleteEmployee(employee)
-                                            }>
+                                        <button className="sub-btn" onClick={() => deleteEmployee(employee)}>
                                             Delete
                                         </button>
                                     </div>
