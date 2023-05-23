@@ -2,6 +2,7 @@ import "./EmployeeTable.css";
 import Axios from "axios";
 import React, { useState } from "react";
 import Popup from "./Popup";
+import employeeData from "../data.json";
 
 export default function EmployeeTable({ employees, getEmployees }) {
     const [showPopup, setShowPopup] = useState(false);
@@ -101,17 +102,14 @@ export default function EmployeeTable({ employees, getEmployees }) {
                                             className="sub-btn"
                                             onClick={() =>
                                                 handleTogglePopup(employee)
-                                            }
-                                        >
+                                            }>
                                             Edit
                                         </button>
                                         <button
                                             className="sub-btn"
                                             onClick={() =>
                                                 deleteEmployee(employee)
-                                            }
-                                        >
-                                            {" "}
+                                            }>
                                             Delete
                                         </button>
                                     </div>
@@ -131,12 +129,9 @@ export default function EmployeeTable({ employees, getEmployees }) {
                             lastName: "",
                             salary: 0,
                         })
-                    }
-                >
+                    }>
                     Add Employee
                 </button>
-                <button className="bottom-btn">Import JSON</button>
-                <button className="bottom-btn">Clean DataBase</button>
             </div>
         </>
     );

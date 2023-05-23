@@ -81,14 +81,12 @@ export default function Popup({ isOpen, onSave, onCancel, employee }) {
                 className="modal-container"
                 isOpen={isOpen}
                 onRequestClose={handleCancel}
-                contentLabel="Enter Employee Details"
-            >
+                contentLabel="Enter Employee Details">
                 <form
                     className="modal-form"
                     onSubmit={(e) => {
                         e.preventDefault();
-                    }}
-                >
+                    }}>
                     <input
                         type="text"
                         name="firstName"

@@ -13,6 +13,32 @@ const db = mysql.createConnection({
     database: "company",
 });
 
+//Imports the default employee table into the database
+app.post("/importJson", (req, res) => {
+    const json = req.body.json;
+
+    const query = `INSERT INTO employees (firstName, lastName, salary) VALUES ?`;
+
+    db.query(query, [json], (error, result) => {
+        if (error) {
+            console.error("Error inserting employees:", error);
+            res.status(500).json({ error: "Failed to insert employees" });
+        } else {
+            console.log("Employees inserted successfully");
+            res.status(200).json({
+                message: "Employees inserted successfully",
+            });
+        }
+    });
+});
+
+//Cleares all employees in the database
+app.post("/cleanDB", (req, res) => {
+    db.query("DELETE FROM employees", (error, result) => {
+        error ? console.log(error) : res.send("Success");
+    });
+});
+
 //Add new employee to the database
 app.post("/addEmployee", (req, res) => {
     const firstName = req.body.firstName;

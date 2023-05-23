@@ -5,7 +5,8 @@ import React, { useState, useEffect } from "react";
 
 export default function App() {
     const [employees, setEmployees] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [jsonUploaded, setJsonUploaded] = useState(false);
 
     const getEmployees = async () => {
         try {
@@ -14,6 +15,59 @@ export default function App() {
             });
         } catch (error) {
             console.error("Error getting employees:", error);
+        }
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file && file.type === "application/json") {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    setSelectedFile(jsonData);
+                    setJsonUploaded(true);
+                } catch (error) {
+                    console.error("Error parsing JSON file:", error);
+                }
+            };
+            reader.readAsText(file);
+        } else {
+            setSelectedFile(null);
+            setJsonUploaded(false);
+            console.error("Invalid file format. Please select a JSON file.");
+        }
+    };
+
+    const handleFileUpload = async () => {
+        if (!selectedFile) {
+            console.error("No file selected");
+            return;
+        }
+
+        try {
+            await Axios.post("http://localhost:3001/importJson", {
+                json: selectedFile.employees,
+            });
+
+            //Reset file input
+            setSelectedFile(null);
+            setJsonUploaded(false);
+
+            console.log("JSON file uploaded successfully");
+            getEmployees();
+        } catch (error) {
+            console.error("Error uploading JSON file:", error.message);
+        }
+    };
+
+    const handleCleanDB = async () => {
+        try {
+            await Axios.post("http://localhost:3001/cleanDB");
+            getEmployees();
+        } catch (error) {
+            console.error("Error cleaning database:", error);
         }
     };
 
@@ -30,6 +84,18 @@ export default function App() {
                 employees={employees}
                 getEmployees={getEmployees}
             />
+            <div className="file-upload">
+                <button className="bottom-btn" onClick={() => handleCleanDB()}>
+                    Clean DataBase
+                </button>
+                <button
+                    className="bottom-btn"
+                    id="import-btn"
+                    onClick={() => handleFileUpload()}>
+                    Import JSON
+                </button>
+                <input type="file" accept=".json" onChange={handleFileChange} />
+            </div>
         </div>
     );
 }
