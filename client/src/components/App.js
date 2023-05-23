@@ -1,12 +1,12 @@
 import "./App.css";
 import EmployeeTable from "./EmployeeTable";
 import Axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function App() {
     const [employees, setEmployees] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [jsonUploaded, setJsonUploaded] = useState(false);
+    const fileInputRef = useRef(null);
 
     const getEmployees = async () => {
         try {
@@ -27,7 +27,6 @@ export default function App() {
                 try {
                     const jsonData = JSON.parse(e.target.result);
                     setSelectedFile(jsonData);
-                    setJsonUploaded(true);
                 } catch (error) {
                     console.error("Error parsing JSON file:", error);
                 }
@@ -35,9 +34,12 @@ export default function App() {
             reader.readAsText(file);
         } else {
             setSelectedFile(null);
-            setJsonUploaded(false);
             console.error("Invalid file format. Please select a JSON file.");
         }
+    };
+
+    const handleChooseFile = () => {
+        fileInputRef.current.click();
     };
 
     const handleFileUpload = async () => {
@@ -53,7 +55,6 @@ export default function App() {
 
             //Reset file input
             setSelectedFile(null);
-            setJsonUploaded(false);
 
             console.log("JSON file uploaded successfully");
             getEmployees();
@@ -94,7 +95,16 @@ export default function App() {
                     onClick={() => handleFileUpload()}>
                     Import JSON
                 </button>
-                <input type="file" accept=".json" onChange={handleFileChange} />
+                <input
+                    type="file"
+                    accept=".json"
+                    onChange={handleFileChange}
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                />
+                <button className="bottom-btn" onClick={handleChooseFile}>
+                    Choose File
+                </button>
             </div>
         </div>
     );
