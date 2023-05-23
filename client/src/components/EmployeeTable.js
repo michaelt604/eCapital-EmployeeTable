@@ -2,7 +2,6 @@ import "./EmployeeTable.css";
 import Axios from "axios";
 import React, { useState } from "react";
 import Popup from "./Popup";
-import employeeData from "../data.json";
 
 export default function EmployeeTable({ employees, getEmployees }) {
     const [showPopup, setShowPopup] = useState(false);
