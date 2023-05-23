@@ -1,10 +1,21 @@
 import "./App.css";
 import Axios from "axios";
 import testData from "./data.json";
+import { useState } from "react";
+import Popup from "./Popup";
 
 export default function EmployeeTable({ employees }) {
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleTogglePopup = () => {
+        setShowPopup(!showPopup);
+    };
+
     //Edits employee with given id
     const editEmployee = (employee) => {
+        console.log("show popup");
+        handleTogglePopup();
+        /*
         Axios.post("http://localhost:3001/editEmployee", {
             firstName: "Test",
             lastName: "Test2",
@@ -12,7 +23,7 @@ export default function EmployeeTable({ employees }) {
             id: employee.id,
         }).then((response) => {
             console.log("EmployeeEdited " + employee.id);
-        });
+        });*/
     };
 
     //Deletes employee with given id
@@ -29,6 +40,7 @@ export default function EmployeeTable({ employees }) {
 
     return (
         <>
+            <Popup isOpen={showPopup} onRequestClose={handleTogglePopup} />
             <table className="EmployeeTable">
                 <thead>
                     <tr>
