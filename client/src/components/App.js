@@ -1,7 +1,7 @@
 import "./App.css";
 import EmployeeTable from "./EmployeeTable";
 import Axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 function App() {
     const [employees, setEmployees] = useState([]);
