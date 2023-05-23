@@ -24,15 +24,15 @@
 }
 
 .modal-button {
-    display: inline-block;
     margin: 0.5rem;
     padding: 0.5rem 1rem;
     background-color: #3a3a3a;
     color: #ffffff;
     text-transform: uppercase;
-    font-weight: bold;
     border: none;
+    border-radius: 0.2rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .modal-button:hover {

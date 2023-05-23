@@ -95,7 +95,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
                                         minimumFractionDigits: 0,
                                     }).format(employee.salary)}
                                 </td>
-                                <td>
+                                <td className="table-body-buttons">
                                     <div className="btn-container">
                                         <button
                                             className="sub-btn"
@@ -121,19 +121,23 @@ export default function EmployeeTable({ employees, getEmployees }) {
                     })}
                 </tbody>
             </table>
-            <button
-                className="add-employee-btn"
-                onClick={() =>
-                    handleTogglePopup({
-                        id: -1,
-                        firstName: "",
-                        lastName: "",
-                        salary: 0,
-                    })
-                }
-            >
-                Add Employee
-            </button>
+            <div className="bottom-div">
+                <button
+                    className="bottom-btn"
+                    onClick={() =>
+                        handleTogglePopup({
+                            id: -1,
+                            firstName: "",
+                            lastName: "",
+                            salary: 0,
+                        })
+                    }
+                >
+                    Add Employee
+                </button>
+                <button className="bottom-btn">Import JSON</button>
+                <button className="bottom-btn">Clean DataBase</button>
+            </div>
         </>
     );
 }
