@@ -4,19 +4,27 @@ import Modal from "react-modal";
 Modal.setAppElement("#root");
 
 //Popup component for editing/adding employee details
-export default function Popup({
-    isOpen,
-    onSave,
-    onCancel,
-    idNum,
-    fName,
-    lName,
-    sal,
-}) {
+export default function Popup({ isOpen, onSave, onCancel, employee }) {
     const [id, setId] = useState(0);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [salary, setSalary] = useState(0);
+
+    useEffect(() => {
+        if (isOpen && employee) {
+            // Update the state values with the employee data when the popup is opened for editing
+            setId(employee.id);
+            setFirstName(employee.firstName);
+            setLastName(employee.lastName);
+            setSalary(employee.salary);
+        } else {
+            // Reset the state values when the popup is opened for adding
+            setId(-1);
+            setFirstName("");
+            setLastName("");
+            setSalary(0);
+        }
+    }, [isOpen, employee]);
 
     //Handles saving employee details input
     const handleSave = () => {
