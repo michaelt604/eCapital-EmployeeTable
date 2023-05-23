@@ -20,7 +20,7 @@ app.post("/importJson", (req, res) => {
     const json = req.body.json;
     const values = json.map(({ firstName, lastName, salary }) => [firstName, lastName, salary]);
 
-    db.query("INSERT INTO employees (firstName, lastName, salary) VALUES ?", [values], (error, result) => {
+    db.query(`INSERT INTO employees (firstName, lastName, salary) VALUES ?`, [values], (error, result) => {
         if (error) {
             console.error("Error inserting employees:", error);
             return res.status(500).json({ error: "Failed to insert employees" });
@@ -34,7 +34,7 @@ app.post("/importJson", (req, res) => {
 
 // Clears all employees in the database
 app.post("/cleanDB", (req, res) => {
-    db.query("DELETE FROM employees", (error, result) => {
+    db.query(`DELETE FROM employees`, (error, result) => {
         if (error) {
             console.error("Error deleting employees:", error);
             return res.status(500).json({ error: "Failed to delete employees" });
@@ -47,15 +47,11 @@ app.post("/cleanDB", (req, res) => {
     });
 });
 
-// Add new employee to the database
+//Add new employee to the database
 app.post("/addEmployee", (req, res) => {
     const { firstName, lastName, salary } = req.body;
 
-    if (!firstName || !lastName || !salary) {
-        return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    db.query("INSERT INTO employees (firstName, lastName, salary) VALUES (?, ?, ?)", [firstName, lastName, salary], (error, result) => {
+    db.query(`INSERT INTO employees (firstName, lastName, salary) VALUES (?, ?, ?)`, [firstName, lastName, salary], (error, result) => {
         if (error) {
             console.error("Error adding employee:", error);
             return res.status(500).json({ error: "Failed to add employee" });
@@ -68,15 +64,11 @@ app.post("/addEmployee", (req, res) => {
     });
 });
 
-// Edits a selected employee in the database using its id
+//Edits a selected employee in the database using its id
 app.post("/editEmployee", (req, res) => {
     const { firstName, lastName, salary, id } = req.body;
 
-    if (!firstName || !lastName || !salary || !id) {
-        return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    db.query("UPDATE employees SET firstName = ?, lastName = ?, salary = ? WHERE id = ?", [firstName, lastName, salary, id], (error, result) => {
+    db.query(`UPDATE employees SET firstName = ?, lastName = ?, salary = ? WHERE id = ?`, [firstName, lastName, salary, id], (error, result) => {
         if (error) {
             console.error("Error editing employee:", error);
             return res.status(500).json({ error: "Failed to edit employee" });
@@ -89,15 +81,11 @@ app.post("/editEmployee", (req, res) => {
     });
 });
 
-// Delete a selected employee from the database using its id
+//Delete a selected employee from the database using its id
 app.post("/deleteEmployee", (req, res) => {
     const id = req.body.id;
 
-    if (!id) {
-        return res.status(400).json({ error: "Missing required field: id" });
-    }
-
-    db.query("DELETE FROM employees WHERE id = ?", [id], (error, result) => {
+    db.query(`DELETE FROM employees WHERE id =?`, [id], (error, result) => {
         if (error) {
             console.error("Error deleting employee:", error);
             return res.status(500).json({ error: "Failed to delete employee" });
@@ -110,9 +98,9 @@ app.post("/deleteEmployee", (req, res) => {
     });
 });
 
-// Request to get all employees from the database
+//Request to get all employees from the database
 app.get("/getEmployee", (req, res) => {
-    db.query("SELECT * FROM employees", (error, result) => {
+    db.query(`SELECT * FROM employees`, (error, result) => {
         if (error) {
             console.error("Error fetching employees:", error);
             return res.status(500).json({ error: "Failed to fetch employees" });
