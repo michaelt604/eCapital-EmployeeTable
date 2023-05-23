@@ -18,9 +18,13 @@ function App() {
     }, []);
 
     return (
-        <div className="App">
-            <h1>Employee</h1>
-            <EmployeeTable employees={employees} getEmployees={getEmployees} />
+        <div className="app">
+            <h1 className="employee-header">Employee</h1>
+            <EmployeeTable
+                className="employee-table"
+                employees={employees}
+                getEmployees={getEmployees}
+            />
         </div>
     );
 }

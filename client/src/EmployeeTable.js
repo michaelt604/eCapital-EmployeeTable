@@ -70,6 +70,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
     return (
         <>
             <Popup
+                className="table-popup"
                 isOpen={showPopup}
                 onSave={onSave}
                 onCancel={handleCancel}
@@ -78,8 +79,8 @@ export default function EmployeeTable({ employees, getEmployees }) {
                 //lName={popupData.lastName}
                 //sal={popupData.salary}
             />
-            <table className="EmployeeTable">
-                <thead>
+            <table className="employee-table">
+                <thead className="table-head">
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -88,7 +89,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="table-body">
                     {employees.map((employee) => {
                         return (
                             <tr key={employee.id} id={employee.id}>
@@ -115,6 +116,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
                 </tbody>
             </table>
             <button
+                className="add-employee-btn"
                 onClick={() =>
                     handleTogglePopup({
                         id: -1,

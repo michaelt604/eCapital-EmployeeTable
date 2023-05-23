@@ -45,11 +45,13 @@ export default function Popup({ isOpen, onSave, onCancel, employee }) {
     return (
         <>
             <Modal
+                className="modal-container"
                 isOpen={isOpen}
                 onRequestClose={handleCancel}
                 contentLabel="Enter Employee Details"
             >
                 <form
+                    className="modal-form"
                     onSubmit={(e) => {
                         "";
                         e.preventDefault();
@@ -79,8 +81,12 @@ export default function Popup({ isOpen, onSave, onCancel, employee }) {
                     />
                 </form>
 
-                <button onClick={handleSave}>Save</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <button className="modal-button" onClick={handleSave}>
+                    Save
+                </button>
+                <button className="modal-button" onClick={handleCancel}>
+                    Cancel
+                </button>
             </Modal>
         </>
     );
