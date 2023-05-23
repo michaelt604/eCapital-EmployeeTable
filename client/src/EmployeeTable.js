@@ -95,7 +95,14 @@ export default function EmployeeTable({ employees, getEmployees }) {
                             <tr key={employee.id} id={employee.id}>
                                 <td>{employee.firstName}</td>
                                 <td>{employee.lastName}</td>
-                                <td>{employee.salary}</td>
+                                <td>
+                                    {new Intl.NumberFormat(undefined, {
+                                        style: "currency",
+                                        currency: "USD",
+                                        maximumFractionDigits: 0,
+                                        minimumFractionDigits: 0,
+                                    }).format(employee.salary)}
+                                </td>
                                 <td>
                                     <div className="btn-container">
                                         <button
