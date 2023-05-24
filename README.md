@@ -5,18 +5,20 @@ This app allows you to manage a list of employees. You can add new employees, ed
 ## Getting Started
 
 1. Clone the repository: `git clone https://github.com/michaelt604/eCapital-EmployeeTable`.
-2. Install dependencies:
-    - Frontend: `cd client && npm install`.
-    - Backend: `cd server && npm install`.
+2. Install Dependencies
+    - `npm install`
+    - `npm run init`
 3. Add the .env file in the server folder (will auto connect to a MySQL database on my server)
-4. Start the backend server: `cd server && node index.js`.
-5. Start the frontend app: `cd client && npm start`.
-6. Access the app in your browser at `http://localhost:3000`.
+4. Run Application
+    - `npm start`
+5. Access the app in your browser at `http://localhost:3000`.
 
 ## Additional Instructions
+
 To start a employee table with fresh imports
+
 1. Click Clean Database Button
-2. Import data.json 
+2. Import data.json
 
 ## Frontend Functionality
 
