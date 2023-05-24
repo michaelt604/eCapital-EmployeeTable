@@ -22,7 +22,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
         try {
             if (updateEmployee.id === -1) {
                 // Add new employee
-                const response = await Axios.post("http://localhost:3001/addEmployee", {
+                const response = await Axios.post("http://localhost:3001/employees", {
                     firstName: updateEmployee.firstName,
                     lastName: updateEmployee.lastName,
                     salary: updateEmployee.salary,
@@ -30,11 +30,10 @@ export default function EmployeeTable({ employees, getEmployees }) {
                 console.log(response);
             } else {
                 // Edit existing employee
-                const response = await Axios.post("http://localhost:3001/editEmployee", {
+                const response = await Axios.put(`http://localhost:3001/employees/${updateEmployee.id}`, {
                     firstName: updateEmployee.firstName,
                     lastName: updateEmployee.lastName,
                     salary: updateEmployee.salary,
-                    id: updateEmployee.id,
                 });
                 console.log(response);
             }
@@ -51,9 +50,7 @@ export default function EmployeeTable({ employees, getEmployees }) {
             return;
         }
         try {
-            await Axios.post("http://localhost:3001/deleteEmployee", {
-                id: employee.id,
-            });
+            await Axios.delete(`http://localhost:3001/employees/${employee.id}`, {});
             getEmployees();
         } catch (error) {
             console.error("Error deleting employee:", error);

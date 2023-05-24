@@ -10,7 +10,7 @@ export default function App() {
 
     const getEmployees = useCallback(async () => {
         try {
-            const response = await Axios.get("http://localhost:3001/getEmployee");
+            const response = await Axios.get("http://localhost:3001/employees");
             setEmployees(response.data);
         } catch (error) {
             console.error("Error getting employees:", error);
@@ -53,7 +53,7 @@ export default function App() {
         }
 
         try {
-            await Axios.post("http://localhost:3001/importJson", {
+            await Axios.post("http://localhost:3001/employees/import", {
                 json: selectedFile.employees,
             });
 
@@ -70,7 +70,7 @@ export default function App() {
         const confirmDelete = window.confirm("Are you sure you want to delete all employees?");
         if (confirmDelete) {
             try {
-                await Axios.post("http://localhost:3001/cleanDB");
+                await Axios.delete("http://localhost:3001/employees/clear");
                 getEmployees();
             } catch (error) {
                 console.error("Error cleaning database:", error);

@@ -16,9 +16,19 @@ const db = mysql.createPool({
 });
 
 // Imports the default employee table into the database
-app.post("/importJson", (req, res) => {
+app.post("/employees/import", (req, res) => {
     const json = req.body.json;
     const values = json.map(({ firstName, lastName, salary }) => [firstName, lastName, salary]);
+
+    // Validate inputs
+    if (!(Array.isArray(json) && json.length > 0)) {
+        return res.status(400).json({ error: "Missing required employees" });
+    }
+    for (let j of json) {
+        if (!j.firstName || !j.lastName || !j.salary) {
+            return res.status(400).json({ error: "Missing required employee field" });
+        }
+    }
 
     db.query(`INSERT INTO employees (firstName, lastName, salary) VALUES ?`, [values], (error, result) => {
         if (error) {
@@ -33,7 +43,7 @@ app.post("/importJson", (req, res) => {
 });
 
 // Clears all employees in the database
-app.post("/cleanDB", (req, res) => {
+app.delete("/employees/clear", (req, res) => {
     db.query(`DELETE FROM employees`, (error, result) => {
         if (error) {
             console.error("Error deleting employees:", error);
@@ -48,8 +58,16 @@ app.post("/cleanDB", (req, res) => {
 });
 
 //Add new employee to the database
-app.post("/addEmployee", (req, res) => {
+app.post("/employees", (req, res) => {
     const { firstName, lastName, salary } = req.body;
+
+    // Validate inputs
+    if (!firstName || !lastName || !salary) {
+        return res.status(400).json({ error: "Missing required fields" });
+    }
+    if (isNaN(parseFloat(salary))) {
+        return res.status(400).json({ error: "Invalid salary" });
+    }
 
     db.query(`INSERT INTO employees (firstName, lastName, salary) VALUES (?, ?, ?)`, [firstName, lastName, salary], (error, result) => {
         if (error) {
@@ -65,8 +83,17 @@ app.post("/addEmployee", (req, res) => {
 });
 
 //Edits a selected employee in the database using its id
-app.post("/editEmployee", (req, res) => {
-    const { firstName, lastName, salary, id } = req.body;
+app.put("/employees/:id", (req, res) => {
+    const { firstName, lastName, salary } = req.body;
+    const id = req.params.id;
+
+    // Validate inputs
+    if (!firstName || !lastName || !salary || !id) {
+        return res.status(400).json({ error: "Missing required fields" });
+    }
+    if (isNaN(parseFloat(salary))) {
+        return res.status(400).json({ error: "Invalid salary" });
+    }
 
     db.query(`UPDATE employees SET firstName = ?, lastName = ?, salary = ? WHERE id = ?`, [firstName, lastName, salary, id], (error, result) => {
         if (error) {
@@ -82,8 +109,13 @@ app.post("/editEmployee", (req, res) => {
 });
 
 //Delete a selected employee from the database using its id
-app.post("/deleteEmployee", (req, res) => {
-    const id = req.body.id;
+app.delete("/employees/:id", (req, res) => {
+    const id = req.params.id;
+
+    // Validate inputs
+    if (!id) {
+        return res.status(400).json({ error: "Missing required field: id" });
+    }
 
     db.query(`DELETE FROM employees WHERE id =?`, [id], (error, result) => {
         if (error) {
@@ -99,7 +131,7 @@ app.post("/deleteEmployee", (req, res) => {
 });
 
 //Request to get all employees from the database
-app.get("/getEmployee", (req, res) => {
+app.get("/employees", (req, res) => {
     db.query(`SELECT * FROM employees`, (error, result) => {
         if (error) {
             console.error("Error fetching employees:", error);

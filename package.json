@@ -1,0 +1,14 @@
+{
+    "name": "eCapital-EmployeeTable",
+    "scripts": {
+        "init-server": "cd server && npm install",
+        "init-client": "cd client && npm install",
+        "init": "npm run init-server && npm run init-client",
+        "start-client": "cd client && npm start",
+        "start-server": "cd server && npm start",
+        "start": "concurrently \"npm run start-client\" \"npm run start-server\""
+    },
+    "devDependencies": {
+        "concurrently": "^8.0.1"
+    }
+}
