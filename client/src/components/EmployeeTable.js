@@ -46,6 +46,10 @@ export default function EmployeeTable({ employees, getEmployees }) {
 
     //Deletes employee with given id then refresh table
     const deleteEmployee = async (employee) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete the selected employee?");
+        if (!confirmDelete) {
+            return;
+        }
         try {
             await Axios.post("http://localhost:3001/deleteEmployee", {
                 id: employee.id,
