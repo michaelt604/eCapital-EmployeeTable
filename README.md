@@ -14,7 +14,9 @@ This app allows you to manage a list of employees. You can add new employees, ed
 6. Access the app in your browser at `http://localhost:3000`.
 
 ## Additional Instructions
-- To start the table with a fresh import,
+To start a employee table with fresh imports
+1. Click Clean Database Button
+2. Import data.json 
 
 ## Frontend Functionality
 
