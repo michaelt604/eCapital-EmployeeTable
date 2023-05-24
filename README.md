@@ -13,54 +13,26 @@ This app allows you to manage a list of employees. You can add new employees, ed
 5. Start the frontend app: `cd client && npm start`.
 6. Access the app in your browser at `http://localhost:3000`.
 
-## Technologies Used
-
--   Frontend:
-
-    -   React: JavaScript library for building user interfaces.
-    -   Axios: Promise-based HTTP client for making API requests.
-    -   Modal: React component for creating modals.
-
--   Backend:
-    -   Node.js: JavaScript runtime for server-side development.
-    -   Express: Web application framework for Node.js.
-    -   MySQL: Relational database management system.
-
-## File Structure
-
--   `index.js`: Entry point of the React frontend.
--   `App.js`: Main component of the React frontend. It handles the state and functionality of the app.
--   `EmployeeTable.js`: Component that displays the employee table and handles employee CRUD operations.
--   `Popup.js`: Component for the popup/modal used for adding/editing employee details.
--   `App.css`, `EmployeeTable.css`, `Popup.css`: CSS stylesheets for styling the app.
--   `server.js`: Backend server file that handles API requests and communicates with the database.
-
 ## Frontend Functionality
 
-### App.js
+### Form
 
--   State:
-    -   `employees`: Array of employees fetched from the backend.
-    -   `selectedFile`: The selected JSON file to be uploaded.
--   Ref:
+-   **Add Employee**: Opens a popup to submit First Name, Last Name, and Salary
+-   **Clean Database**: Opens a confirmation box before clearning all employees from the database
+-   **Upload JSON**: Opens a file explorer to select a json to upload to the database (format must match data.json from the start folder)
 
-    -   `fileInputRef`: Reference to the file input element for uploading JSON files.
+### Table
 
--   Functions:
+-   **Edit**: Opens a popup to edit selected employee First Name, Last Name, and Salary
+-   **Delete**: Opens a confirmation box before removing selected employee from the database
 
-    -   `getEmployees()`: Fetches the list of employees from the backend.
-    -   `handleFileChange(e)`: Handles the file selection and parses the JSON file.
-    -   `handleChooseFile()`: Opens the file input dialog.
-    -   `handleFileUpload()`: Uploads the selected JSON file to the backend.
-    -   `handleCleanDB()`: Deletes all employees from the database.
-    -   `handleTogglePopup(employee)`: Toggles the display of the employee details popup.
-    -   `onSave(data)`: Saves the employee details entered in the popup.
-    -   `deleteEmployee(employee)`: Deletes an employee from the database.
+### Popup
 
--   Lifecycle Hooks:
-    -   `useEffect()`:
-        -   Fetches the list of employees when the component is mounted.
-        -   Uploads the selected file when `selectedFile` state changes.
+-   **First Name**: Employee First Name
+-   **Last Name**: Employee Last Name
+-   **Salary**: Employee Salary
+-   **Save**: Saves Employee Details
+-   **Cancel**: Cancels Entering Employee Details
 
 ## Backend Functionality
 
@@ -84,3 +56,25 @@ This app allows you to manage a list of employees. You can add new employees, ed
     -   `POST /employee`: Adds a new employee to the database.
     -   `PUT /employee/:id`: Updates the details of an existing employee.
     -   `DELETE /employee/:id`: Deletes an employee from the database.
+
+## Technologies Used
+
+-   Frontend:
+
+    -   React: JavaScript library for building user interfaces.
+    -   Axios: Promise-based HTTP client for making API requests.
+    -   Modal: React component for creating modals.
+
+-   Backend:
+    -   Node.js: JavaScript runtime for server-side development.
+    -   Express: Web application framework for Node.js.
+    -   MySQL: Relational database management system.
+
+## File Structure
+
+-   `index.js`: Entry point of the React frontend.
+-   `App.js`: Main component of the React frontend. It handles the state and functionality of the app.
+-   `EmployeeTable.js`: Component that displays the employee table and handles employee CRUD operations.
+-   `Popup.js`: Component for the popup/modal used for adding/editing employee details.
+-   `App.css`, `EmployeeTable.css`, `Popup.css`: CSS stylesheets for styling the app.
+-   `server.js`: Backend server file that handles API requests and communicates with the database.
