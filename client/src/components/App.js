@@ -85,6 +85,11 @@ export default function App() {
         }
     }, [selectedFile, handleFileUpload]);
 
+    //Displays a list of employees of page refresh
+    useEffect(() => {
+        getEmployees();
+    }, [getEmployees]);
+
     return (
         <div className="app">
             <h1 className="employee-header">Employees</h1>
