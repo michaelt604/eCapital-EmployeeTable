@@ -57,12 +57,12 @@ To start a employee table with fresh imports
     -   `cors()`: Enables CORS for handling cross-origin requests.
 
 -   API Endpoints:
-    -   `POST /importJson`: Imports the default employee table from a JSON file into the database.
-    -   `POST /cleanDB`: Deletes all employees from the database.
+    -   `POST /employees/import`: Imports the default employee table from a JSON file into the database.
+    -   `POST /employees/clear`: Deletes all employees from the database.
     -   `GET /employees`: Fetches the list of all employees from the database.
-    -   `POST /employee`: Adds a new employee to the database.
-    -   `PUT /employee/:id`: Updates the details of an existing employee.
-    -   `DELETE /employee/:id`: Deletes an employee from the database.
+    -   `POST /employees`: Adds a new employee to the database.
+    -   `PUT /employees/:id`: Updates the details of an existing employee.
+    -   `DELETE /employees/:id`: Deletes an employee from the database.
 
 ## Technologies Used
 
@@ -77,11 +77,14 @@ To start a employee table with fresh imports
     -   Express: Web application framework for Node.js.
     -   MySQL: Relational database management system.
 
-## File Structure
-
--   `index.js`: Entry point of the React frontend.
--   `App.js`: Main component of the React frontend. It handles the state and functionality of the app.
--   `EmployeeTable.js`: Component that displays the employee table and handles employee CRUD operations.
--   `Popup.js`: Component for the popup/modal used for adding/editing employee details.
--   `App.css`, `EmployeeTable.css`, `Popup.css`: CSS stylesheets for styling the app.
--   `server.js`: Backend server file that handles API requests and communicates with the database.
+## Important Files
+-   client 
+    - src
+        - `index.js`: Entry point of the React frontend.
+        - Components
+            - `App.js`: Main component of the React frontend. It handles the state and functionality of the app.
+            - `EmployeeTable.js`: Component that displays the employee table and handles employee database operations.
+            - `Popup.js`: Component for the popup/modal used for adding/editing employee details.
+            - `App.css`, `EmployeeTable.css`, `Popup.css`: CSS stylesheets for styling the app.
+-   server
+    - `index.js`: Backend server file that handles API requests and communicates with the database.
