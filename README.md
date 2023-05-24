@@ -9,9 +9,12 @@ This app allows you to manage a list of employees. You can add new employees, ed
     - Frontend: `cd client && npm install`.
     - Backend: `cd server && npm install`.
 3. Add the .env file in the server folder (will auto connect to a MySQL database on my server)
-4. Start the backend server: `cd server && npm node index.js`.
+4. Start the backend server: `cd server && node index.js`.
 5. Start the frontend app: `cd client && npm start`.
 6. Access the app in your browser at `http://localhost:3000`.
+
+## Additional Instructions
+- To start the table with a fresh import,
 
 ## Frontend Functionality
 
