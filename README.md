@@ -78,9 +78,13 @@ To start a employee table with fresh imports
     -   MySQL: Relational database management system.
 
 ## Important Files
--   `index.js`: Entry point of the React frontend.
--   `App.js`: Main component of the React frontend. It handles the state and functionality of the app.
--   `EmployeeTable.js`: Component that displays the employee table and handles employee CRUD operations.
--   `Popup.js`: Component for the popup/modal used for adding/editing employee details.
--   `App.css`, `EmployeeTable.css`, `Popup.css`: CSS stylesheets for styling the app.
--   `server.js`: Backend server file that handles API requests and communicates with the database.
+-   client 
+    - src
+        - `index.js`: Entry point of the React frontend.
+        - Components
+            - `App.js`: Main component of the React frontend. It handles the state and functionality of the app.
+            - `EmployeeTable.js`: Component that displays the employee table and handles employee database operations.
+            - `Popup.js`: Component for the popup/modal used for adding/editing employee details.
+            - `App.css`, `EmployeeTable.css`, `Popup.css`: CSS stylesheets for styling the app.
+-   server
+    - `index.js`: Backend server file that handles API requests and communicates with the database.
