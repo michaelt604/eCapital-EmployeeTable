@@ -4,7 +4,7 @@ This app allows you to manage a list of employees. You can add new employees, ed
 
 ## Getting Started
 
-1. Clone the repository: `git clone https://github.com/your-username/your-repo.git`.
+1. Clone the repository: `git clone https://github.com/michaelt604/eCapital-EmployeeTable`.
 2. Install dependencies:
     - Frontend: `cd client && npm install`.
     - Backend: `cd server && npm install`.
