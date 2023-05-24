@@ -37,7 +37,7 @@ export default function Popup({ isOpen, onSave, onCancel, employee }) {
             alert("First Name and Last Name are required");
             return;
         }
-        if (salary < 0) {
+        if (!salary || salary < 0) {
             alert("Salary cannot be below 0");
             return;
         }
