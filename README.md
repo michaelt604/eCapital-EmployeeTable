@@ -1,6 +1,6 @@
 # eCapital Employee Table
 
-This app allows you to manage a list of employees. You can add new employees, edit existing ones, delete employees, and view the employee list. The app uses a React frontend and a Node.js backend with a MySQL database.
+This app allows you to manage a list of employees. You can add new employees, edit existing ones, delete employees, and view the employee list. You can also delete all employees, as well as import new employees from a json file. The app uses a React frontend and a Node.js backend with a MySQL database.
 
 ## Getting Started
 
