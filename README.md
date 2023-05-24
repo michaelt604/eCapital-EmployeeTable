@@ -12,13 +12,8 @@ This app allows you to manage a list of employees. You can add new employees, ed
 4. Run Application
     - `npm start`
 5. Access the app in your browser at `http://localhost:3000`.
-
-## Additional Instructions
-
-To start a employee table with fresh imports
-
-1. Click Clean Database Button
-2. Import data.json
+6. Clear the database and table by clicking the "Clean Database" button
+7. Upload the *data.json* in the root folder by clicking the "Upload JSON" button to
 
 ## Frontend Functionality
 
@@ -45,12 +40,6 @@ To start a employee table with fresh imports
 
 ### server.js
 
--   Dependencies:
-
-    -   `express`: Web application framework for Node.js.
-    -   `mysql`: MySQL database driver.
-    -   `cors`: Middleware to enable Cross-Origin Resource Sharing.
-
 -   Middleware:
 
     -   `express.json()`: Parses JSON request bodies.
@@ -70,7 +59,6 @@ To start a employee table with fresh imports
 
     -   React: JavaScript library for building user interfaces.
     -   Axios: Promise-based HTTP client for making API requests.
-    -   Modal: React component for creating modals.
 
 -   Backend:
     -   Node.js: JavaScript runtime for server-side development.
